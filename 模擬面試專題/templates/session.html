@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>AI 模擬面試 - 聊天室</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            height: 100%;
+        }
+
+        body {
+            padding-top: 50px;
+            /* Adjusted for fixed navbar */
+            background-image: url('/static/office_bg.png');
+            background-size: cover;
+            /* Ensures the image covers the entire background */
+            background-repeat: no-repeat;
+            /* Prevents the image from repeating */
+            background-attachment: fixed;
+            /* Keeps the background fixed during scroll */
+            background-position: center;
+            /* Centers the background image */
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            display: -webkit-box;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            white-space: nowrap;
+        }
+
+        .content-container {
+            display: flex;
+            height: calc(100% - 100px);
+            /* Ensure the container takes full height */
+        }
+
+        .left-column {
+            flex: 2;
+            max-width: 66.67%;
+            padding-right: 15px;
+            height: 100%;
+        }
+
+        .right-column {
+            flex: 1;
+            max-width: 33.33%;
+            padding-left: 15px;
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: center;
+            /* Align items to the end of the column */
+            align-items: center;
+        }
+
+        #chat-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            /* Allow the container to be 100% wide up to the maximum width */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            padding: 5px;
+        }
+
+        #user-input {
+            min-height: 38px;
+            resize: none;
+            overflow: hidden;
+            overflow-y: auto;
+            /* Allow vertical scrolling if the content overlows */
+            padding: 0.375rem 0.75rem;
+            margin: 0 1px;
+        }
+
+        #chat-box {
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 150px);
+            height: calc(100% - 20px);
+            /* Adjust to allow more messages to be displayed */
+            overflow-y: auto;
+            padding: 10px;
+            overflow-anchor: auto;
+            padding-bottom: 60px;
+            background-color: #38502b40;
+            border-radius: 15px;
+        }
+
+        #response {
+            /* height: 300px; */
+            overflow-y: scroll;
+            /* background-color: transparent; */
+            padding: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 20px;
+            /* border-bottom: 1px solid #cae4ef; */
+            padding: 10px;
+            word-wrap: break-word;
+            max-width: 60%;
+        }
+
+        .list-group-item {
+            margin-bottom: 20px;
+            /* border-bottom: 1px solid #cae4ef; */
+            padding: 10px;
+            word-wrap: break-word;
+        }
+
+        .list-group-item:first-child {
+            border-top-left-radius: 15px;
+            /* or any value you prefer */
+            border-top-right-radius: 15px;
+            /* or any value you prefer */
+        }
+
+        .list-group-item:last-child {
+            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .ai-interviewer {
+            text-align: center;
+            margin-bottom: 10px;
+            /* margin-top: 5px; */
+        }
+
+        .ai-interviewer video {
+            width: 100%;
+            margin-top: auto;
+            height: auto;
+        }
+
+        .microphone-button {
+            margin-left: 10px;
+            background-color: #564c41;
+            border-color: #564c41;
+            padding: 0.375rem 0.75rem;
+            margin: 0 1px;
+        }
+
+        .send-button {
+            background-color: #564c41;
+            border-color: #564c41;
+            padding: 0.375rem 0.75rem;
+            margin: 0 1px;
+        }
+
+        .top-right-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            /* 至少在最上層 */
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        .user-message {
+            text-align: right;
+            margin-left: auto;
+            background-color: #b19476;
+            border-radius: 15px 15px 15px 15px;
+        }
+
+        .assistant-message {
+            text-align: left;
+            margin-right: auto;
+            background-color: #564c41;
+            color: white;
+            border-radius: 15px 15px 15px 15px;
+        }
+
+        .assistant-icon {
+            width: 32px;
+            height: 32px;
+            margin-left: 10px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Esure the icon covers the entire area */
+        }
+    </style>
+</head>
+
+<body>
+    <main class="flex-shrink-0">
+        <div class="container content-container">
+            <div class="left-column">
+                <div class="chat-box" id="chat-box">
+                    <div class="list-group" id="response">
+                        <!-- Messages will be appended here -->
+                    </div>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="ai-interviewer">
+                    <video id="ai-interviewer-video" src="/static/interviewer.mp4" alt="AI Interviewer" autoplay loop
+                        muted></video>
+                    <p>AI面試官 Aiko</p>
+                    <button id="end-button" class="btn btn-danger top-right-button" onclick="endReport()">
+                        結束面試
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="chat-container">
+            <!-- <input type="text" class="form-control flex-grow-1 me-2" id="user-input" placeholder="點選麥克風或輸入回答..."> -->
+            <!-- <input> elements do not support multiple lines or dynamic height adjustment based on content. -->
+            <!-- Use <textarea> instead. -->
+            <textarea class="form-control flex-grow-1 me-2" id="user-input" placeholder="點選麥克風或輸入回答..."></textarea>
+            <button id="microphone-button" class="btn btn-primary microphone-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                    <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3" />
+                </svg>
+            </button>
+            <button id="send-button" class="btn btn-primary send-button" onclick="generateResponse()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                </svg>
+            </button>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76wVtVWJAw3E1rE4W7m2vz8jEk2mnEuSyw+OG+rbtJl7x8CV5C+XtmQG0Uew0D1"
+        crossorigin="anonymous"></script>
+    <script src="/static/session.js"></script>
+    <script>
+        // JavaScript to adjust the height of the textarea
+        const textarea = document.getElementById('user-input');
+        textarea.addEventListener('input', () => {
+            textarea.style.height = 'auto'; // Reset the height
+            textarea.style.height = `${Math.min(textarea.scrollHeight, 100)}px`; // Set the height to match the scroll height, but not more than 75px
+        });
+        // 传递数据到JavaScript文件
+        var data = {
+            name: "{{ name }}",
+            gender: "{{ gender }}",
+            email: "{{ email }}",
+            age: "{{ age }}",
+            tenure: "{{ tenure }}",
+            job_title: "{{ job_title }}",
+            job_description: "{{ job_description }}",
+            experience: "{{ experience }}",
+            skills: "{{ skills }}"
+        };
+        displayData(data);
+
+
+        function endReport() {
+            window.location.href = "{{ url_for('main.report') }}";
+        }
+
+    </script>
+
+</body>
+
+</html>
+

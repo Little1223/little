@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report - AI 面試大師</title>
+  <style>
+    .description ul li {
+      margin-bottom: 20px;
+    }
+  </style>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/assets/img/favicon.png" rel="icon">
+  <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link rel="stylesheet" href="/static/main.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- ECharts 库 -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+
+<body class="report-page">
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+
+      <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">AI Interview Prep</h1><span>.</span>
+      </a>
+
+      <a href="#" onclick="startQuiz()" class="btn-getstarted">Logout</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section transparent" style="padding-top: 125px;">
+      <div class="container">
+        <div class="row">
+          <h1>Interview Feedback</h1>
+          <h5>謝謝您參加 AI Interview Prep 面試練習！</h5>
+          <!-- <h6>您的練習結果如下:</h6> -->
+          <p>總體得分: {{ score6 }} / 100</p>
+
+          <div class="chart row" style="padding-top: 20px;">
+            <!-- 面試結果報告 图表 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4">
+              <div id="chart" class="mx-auto" style="width: 85%; height: 400px;"></div>
+            </div>
+            <!-- 自然語言描述 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4 description">
+              <div class="description mx-auto" style="width: 85%;">
+                <h4>您的優勢題型</h4>
+                <h7>根據您的面試結果，此題型得分最高：</h7>
+                <ul id="highest-scores">
+                  <!-- 動態插入最高分數題型 -->
+                </ul>
+                <h5>高分原因</h5>
+                <ul id="advantage-reasons">
+                  <!-- 動態插入高分原因 -->
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart row">
+            <!-- 成績百分比 图表 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4">
+              <div id="chart2" class="mx-auto" style="width: 85%; height: 400px;"></div>
+            </div>
+            <!-- 待需努力題型 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4">
+              <div class="description mx-auto" style="width: 85%;">
+                <h4>待需努力題型</h4>
+                <h7>根據您的面試結果，以下是三種題型得分最低：</h7>
+                <ul id="lowest-scores">
+                  <!-- 動態插入最低分數題型 -->
+                </ul>
+                <h5>提高分數的技巧</h5>
+                <ul id="improvement-tips">
+                  <!-- 動態插入提升分數的建議 -->
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart row">
+            <!-- 職業比 图表 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4">
+              <div id="chart3" class="mx-auto" style="width: 85%; height: 400px;"></div>
+            </div>
+            <!-- 自然語言描述 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4 description">
+              <div class="description mx-auto" style="width: 85%;">
+                <h4>職業比分析</h4>
+                <ul>
+                  <li><b>分析</b><br>這張圓餅圖展示了 <strong id="job_description_input"></strong> 在整體職業描述中的佔比情況。可以明顯看出：
+                    <ul>
+                      <li><strong id="job_description_input2"></strong> 佔總職業描述的
+                        <strong id="job_description_percentage"></strong>，表明在我們的數據集中，這個職業描述具有相當的代表性。
+                      </li>
+                      <li>其他職業佔 <strong id="else_job_description_percentage"></strong>，這反映了在我們的樣本中存在多樣化的職業描述。</li>
+                    </ul>
+                  </li>
+                  <li><b>Highlights</b><br><strong>高匹配度</strong>：特定職業描述的高佔比顯示了受訪者中此職業的普遍性，可能反映了市場需求或應徵者的偏好。<br>
+                    <strong>多樣性</strong>：儘管某些職業描述佔比較高，但其他職業仍然佔有相當比例，這表明樣本具有一定的多樣性和代表性。
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="chart row">
+            <!-- Gender 图表 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4">
+              <div id="chart4" class="mx-auto" style="width: 85%; height: 400px;"></div>
+            </div>
+            <!-- 自然語言描述 -->
+            <div class="col-12 col-sm-6 col-md-6 mb-4 description">
+              <div class="description mx-auto" style="width: 85%;">
+                <h4>性別比例</h4>
+                <ul>
+                  <li><b>分析</b><br>這張圓餅圖展示了 <strong id="job_description_input"></strong> 在性別分佈中的比例情況。可以明顯看出：</li>
+                  <ul>
+                    <li><strong id="gender_input"></strong> 佔總性別比例的 <strong
+                        id="gender_percentage_for_job"></strong>，表明在我們的數據集中，這個性別具有相當的代表性。</li>
+                    <li>其他性別佔 <strong id="else_gender_percentage"></strong>，這反映了在我們的樣本中存在多樣化的性別分佈。</li>
+                  </ul>
+                  <li><b>Highlights</b><br><strong>性別多樣性</strong>：性別比例的高佔比顯示了受訪者中此性別的普遍性，可能反映了市場需求或應徵者的偏好。<br>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- 面試題目類型與內容-->
+          <h5>回顧面試題型：</h5>
+          <ul>
+            <li><b>技術技能評估：</b> 請問你對此職位的工具掌握到什麼程度？</li>
+            <li><b>行為和情境：</b> 請問工作上遇到嚴重的技術困難時，你會怎麼處理？</li>
+            <li><b>動機與文化適配：</b> 為什麼選擇應徵我們公司？</li>
+            <li><b>人際關係和團隊合作：</b> 如果遇到同事不同意你的方案，你會怎麼處理？</li>
+            <li><b>時間管理與壓力應對：</b> 當你面對繁重的工作和緊縮的專案排程時，你會怎麼安排和處理？</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </section><!-- /Hero Section -->
+  </main>
+
+
+  <script src="/static/session.js"></script>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="/static/assets/vendor/aos/aos.js"></script>
+  <script src="/static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="/static/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="/static/assets/js/main.js"></script>
+
+  <!-- Original JS File -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <!-- 用于传递数据到JavaScript文件 -->
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      // 获取传递给模板的分数数据
+      var score1 = {{ score1|default (0) | tojson
+    }};
+    var score2 = {{ score2|default (0) | tojson }};
+    var score3 = {{ score3|default (0) | tojson }};
+    var score4 = {{ score4|default (0) | tojson }};
+    var score5 = {{ score5|default (0) | tojson }};
+    var score6 = {{ score6|default (0) | tojson }};
+
+    var averageScore1 = {{ average_score1|default (0) | round(2) | tojson }};
+    var averageScore2 = {{ average_score2|default (0) | round(2) | tojson}};
+    var averageScore3 = {{ average_score3|default (0) | round(2) | tojson }};
+    var averageScore4 = {{ average_score4|default (0) | round(2) | tojson }};
+    var averageScore5 = {{ average_score5|default (0) | round(2) | tojson }};
+    var averageScore6 = {{ average_score6|default (0) | round(2) | tojson }};
+
+    // 性別資訊
+    var gender_input = {{ gender_input|default (0) | tojson }};
+    var else_gender_input = {{ else_gender_input|default (0) | tojson }};
+    var matching_genders_for_job = {{ matching_genders_for_job|default (0) | tojson }};
+    var else_genders_for_job = {{ else_genders_for_job|default (0) | tojson }};
+    var gender_percentage_for_job = {{ gender_percentage_for_job|default (0) | round(2) | tojson }};
+
+    // 職業資訊
+    var job_description_input = {{ job_description_input|default (0) | tojson }};
+    var matching_job_description = {{ matching_job_description|default (0) | tojson }};
+    var else_job_description = {{ else_job_description|default (0) | tojson }};
+    var job_description_percentage = {{ job_description_percentage|default (0) | round(2) | tojson }};
+
+    // 百分比數值
+    var score6RankPercentage = {{ score6_rank_percentage|default ([]) | round(2) | tojson }};
+    var else_score6_rank_percentage = {{ else_score6_rank_percentage|default ([]) | round(2) | tojson }};
+
+    // 插入動態數據到HTML
+    document.getElementById('job_description_input').innerText = job_description_input;
+    document.getElementById('job_description_input2').innerText = job_description_input;
+    document.getElementById('job_description_percentage').innerText = job_description_percentage + '%';
+    document.getElementById('else_job_description_percentage').innerText = (100 - job_description_percentage) + '%';
+    document.getElementById('gender_input').innerText = gender_input;
+    document.getElementById('gender_percentage_for_job').innerText = gender_percentage_for_job.toFixed(2) + '%';
+    document.getElementById('else_gender_percentage').innerText = (100 - gender_percentage_for_job).toFixed(2) + '%';
+
+    // 初始化 ECharts 实例
+    var chart = echarts.init(document.getElementById('chart'));
+    var chart2 = echarts.init(document.getElementById('chart2'));
+    var chart3 = echarts.init(document.getElementById('chart3'));
+    var chart4 = echarts.init(document.getElementById('chart4'));
+
+    // Score Comparison 图表配置
+    var option = {
+      color: ['#d83434', '#d3d3d3', '#EE6666'], // 自定义颜色
+      title: {
+        text: '您的得分'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {},
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: ['總體得分', '時間管理與壓力應對', '人際關係和團隊合作', '動機與文化適配', '行為和情境', '技術技能評估']
+      },
+      series: [
+        {
+          name: '你的分數',
+          type: 'bar',
+          data: [score6, score5, score4, score3, score2, score1]
+        },
+        {
+          name: '所有使用者平均分數',
+          type: 'bar',
+          data: [averageScore6, averageScore5, averageScore4, averageScore3, averageScore2, averageScore1]
+        }
+      ]
+    };
+
+    // 百分比圖
+    var option2 = {
+      color: ['#d83434', '#d3d3d3', '#EE6666'], // 自定义颜色
+      title: {
+        text: '成績百分比',
+        subtext: '你的分數贏過' + else_score6_rank_percentage + '%的人',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            { value: score6RankPercentage, name: '你的成績百分比' },
+            { value: else_score6_rank_percentage, name: '其他人' },
+
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    // Job description 圖
+    var option3 = {
+      color: ['#d83434', '#d3d3d3', '#EE6666'], // 自定义颜色
+      title: {
+        text: job_description_input + '佔比',
+        subtext: job_description_percentage + '%',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            { value: matching_job_description, name: job_description_input },
+            { value: else_job_description, name: '其他職業' }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    // Gender圖
+    var option4 = {
+      color: ['#d83434', '#d3d3d3', '#EE6666'], // 自定义颜色
+      title: {
+        text: job_description_input + '性別比',
+        subtext: gender_percentage_for_job + '%',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            { value: matching_genders_for_job, name: gender_input },
+            { value: else_genders_for_job, name: else_gender_input }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    // 使用配置项生成图表
+    chart.setOption(option);
+    chart2.setOption(option2);
+    chart3.setOption(option3);
+    chart4.setOption(option4);
+
+
+    // 動態插入最低分數題型
+    var scores = [
+      { type: '技術技能評估', score: score1 },
+      { type: '行為和情境', score: score2 },
+      { type: '動機與文化適配', score: score3 },
+      { type: '人際關係和團隊合作', score: score4 },
+      { type: '時間管理與壓力應對', score: score5 }
+    ];
+
+    // 按分數從低到高排序
+    scores.sort(function (a, b) {
+      return a.score - b.score;
+    });
+
+    // 取得分數最低的三種題型
+    var lowestScores = scores.slice(0, 3);
+
+    // 取得分數最高的題型
+    var highestScore = scores[scores.length - 1];
+
+    // 插入到HTML中
+    var lowestScoresList = document.getElementById('lowest-scores');
+    var improvementTipsList = document.getElementById('improvement-tips');
+    var highestScoresList = document.getElementById('highest-scores');
+    var advantageReasonsList = document.getElementById('advantage-reasons');
+
+    var tips = {
+      '技術技能評估': '多參加技術培訓和實戰項目，提升對相關工具和技術的熟練度。',
+      '行為和情境': '多做模擬面試，熟悉常見情境題，練習使用STAR法則回答問題。',
+      '動機與文化適配': '深入了解公司的文化和價值觀，準備相關問題的具體例子。',
+      '人際關係和團隊合作': '多參與團隊活動，主動溝通和協作，提升人際交往技巧。',
+      '時間管理與壓力應對': '制定每日計劃，設置優先順序，並學會在壓力下保持冷靜。'
+    };
+
+    var reasons = {
+      '技術技能評估': '您在技術技能評估中表現出色，表明您成功透過具體事件來描述使用技能的經歷，呈現出您擁有扎實的技術基礎和實踐經驗。',
+      '行為和情境': '您在行為和情境題中表現優異，表示您的舉例明確，顯示出能夠冷靜應對複雜情況並做出正確決策的能力。',
+      '動機與文化適配': '您的動機和文化適配度很高，表明您對目標公司有一定程度的了解，並顯示出您的價值理念和目標和公司有深刻的理解和認同。',
+      '人際關係和團隊合作': '您在人際關係和團隊合作方面得分最高，這反映了您的團隊合作經驗明確，顯示出色的溝通技巧和協作能力。',
+      '時間管理與壓力應對': '您在時間管理與壓力應對中表現出色，回答合宜，顯示出您能有效地安排工作並在壓力下保持高效。'
+    };
+
+    lowestScores.forEach(function (item) {
+      // 插入分數最低的題型
+      var li = document.createElement('li');
+      li.innerText = item.type + ': ' + item.score;
+      lowestScoresList.appendChild(li);
+
+      // 插入對應的提高分數建議
+      var tipLi = document.createElement('li');
+      tipLi.innerText = tips[item.type];
+      improvementTipsList.appendChild(tipLi);
+    });
+
+    // 插入分數最高的題型
+    var highestLi = document.createElement('li');
+    highestLi.innerText = highestScore.type + ': ' + highestScore.score;
+    highestScoresList.appendChild(highestLi);
+
+    // 插入對應的回答好的原因
+    var advantageLi = document.createElement('li');
+    advantageLi.innerText = reasons[highestScore.type];
+    advantageReasonsList.appendChild(advantageLi);
+  });
+    function startQuiz() {
+      fetch("{{ url_for('start_quiz') }}", {
+        method: "POST"
+      }).then(response => {
+        if (response.redirected) {
+          window.location.href = response.url;
+        }
+      });
+    }
+  </script>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

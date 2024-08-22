@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Interview{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<p>Name: {{ name }}</p>
+<p>Gender: {{ gender }}</p>
+<p>Email: {{ email }}</p>
+<p>Age: {{ age }}</p>
+<p>Tenure: {{ tenure }}</p>
+<p>Job Description: {{ job_description }}</p>
+<p>Experience: {{ experience }}</p>
+<p>Skills: {{ skills }}</p>
+
+<form action="/main/interview" method="get" id="info-form">
+  <label for="score1">Score1:</label>
+  <input name="score1" id="score1" required>
+  <label for="score2">Score2:</label>
+  <input name="score2" id="score2" required>
+  <label for="score3">Score3:</label>
+  <input name="score3" id="score3" required>
+  <label for="score4">Score4:</label>
+  <input name="score4" id="score4" required>
+  <label for="score5">Score5:</label>
+  <input name="score5" id="score5" required>
+  <input type="submit" value="OK">
+</form>
+
+<script>
+  // 传递数据到JavaScript文件
+  var data = {
+    name: "{{ name }}",
+    gender: "{{ gender }}",
+    email: "{{ email }}",
+    age: "{{ age }}",
+    tenure: "{{ tenure }}",
+    job_description: "{{ job_description }}",
+    experience: "{{ experience }}",
+    skills: "{{ skills }}"
+  };
+
+  // 在控制台输出
+  console.log(data);
+</script>
+{% endblock %}

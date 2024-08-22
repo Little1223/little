@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>AI Interview Platform - Form</title>
+    <style>
+        body {
+            padding-top: 56px;
+        }
+
+        .form-section {
+            margin: 50px 0;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn-primary {
+            background-color: #564c41;
+            border-color: #564c41;
+        }
+
+        .btn-primary:hover {
+            background-color: #564c41;
+            border-color: #564c41;
+        }
+        .form-control::placeholder {
+            color: #999;
+            /* Gray color for placeholder text */
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <main class="container">
+        <section class="form-section">
+            <h2 class="text-center">填寫您的個人資訊和職位描述</h2>
+            <h6 class="text-center">以下資訊僅用於模擬面試</h6>
+            <div class="form-container">
+                <form action="/main/submit" method="get" id="info-form">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">姓名</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="請輸入您的姓名" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">性別</label>
+                        <select class="form-select" id="gender" name="gender">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">電子郵件</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="請輸入您的電子郵件" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">年齡</label>
+                        <input type="number" class="form-control" id="age" name="age" placeholder="請輸入您的年齡" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tenure" class="form-label">工作年資(年)</label>
+                        <select class="form-select" id="tenure" name="tenure">
+                           <option value="0">0年</option>
+                           <option value="1">1年</option>
+                           <option value="2">2年</option>
+                           <option value="3">3年</option>
+                           <option value="4">4年</option> 
+                           <option value="5">5年</option>
+                           <option value="6">6年</option>
+                           <option value="7">7年</option>
+                           <option value="8">8年</option>  
+                           <option value="9">9年</option>   
+                           <option value="10">10年</option>
+                           <option value="11">11年</option>
+                           <option value="12">12年</option>
+                           <option value="13">13年</option>
+                           <option value="14">14年</option>
+                           <option value="15">15年以上</option>
+                        </select>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_description" class="form-label">面試職位</label>
+                        <select class="form-select" id="job_description" name="job_description">
+                           <option value="前端工程師">前端工程師</option>
+                           <option value="後端工程師">後端工程師</option>
+                           <option value="機器學習工程師">機器學習工程師</option>
+                           <option value="人工智慧工程師">人工智慧工程師</option>
+                           <option value="全端工程師">全端工程師</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_detail" class="form-label">面試職務</label>
+                        <textarea class="form-control" id="job_detail" name="job_detail" rows="3" placeholder="請輸入您目標面試職務的工作內容" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">工作經驗</label>
+                        <textarea class="form-control" id="experience" name="experience" rows="3" placeholder="請輸入您的相關工作經驗" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">專業技能</label>
+                        <textarea class="form-control" id="skills" name="skills" rows="3" placeholder="請輸入您的相關專業技能" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">開始面試</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76wVtVWJAw3E1rE4W7m2vz8jEk2mnEuSyw+OG+rbtJl7x8CV5C+XtmQG0Uew0D1" crossorigin="anonymous"></script>
+    <script src="/static/form.js"></script>
+</body>
+</html>

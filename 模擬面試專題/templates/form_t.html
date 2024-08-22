@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>AI Interview Platform - Form</title>
+    <style>
+        body {
+            padding-top: 56px;
+        }
+
+        .form-section {
+            margin: 50px 0;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn-primary {
+            background-color: #8dbdd4;
+            border-color: #8dbdd4;
+        }
+
+        .btn-primary:hover {
+            background-color: #76a1bb;
+            border-color: #76a1bb;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+            /* Gray color for placeholder text */
+        }
+
+        /* CSS for radio buttons */
+        .form-check-input {
+            margin-right: 5px;
+            /* Adjust spacing between radio button and label */
+        }
+
+        .form-check-label {
+            font-weight: normal;
+            /* Adjust label style if needed */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #8dbdd4;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/" style="font-size: 20px;">面試回饋系統</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link px-3 text-nowrap" href="/">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 text-nowrap" href="/faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 text-nowrap" href="/about">關於我們</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <h2 class="text-center">請填寫您的個人資訊和職位描述</h2>
+            <h6 class="text-center">以下資訊僅用於模擬面試</h6>
+            <div class="form-container">
+                <form action="/submit" method="post" id="info-form">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">姓名</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="請輸入您的姓名" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">電子郵件</label>
+                        <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件" name="email"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">年齡</label>
+                        <input type="text" class="form-control" id="age" placeholder="請輸入您的年齡" name="age"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tenure" class="form-label">工作年資：</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tenure" id="ten1" value="0-1年">
+                            <label class="form-check-label" for="ten1">
+                                0-1年
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tenure" id="ten2" value="1-3年">
+                            <label class="form-check-label" for="ten2">
+                                1-3年
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tenure" id="ten3" value="3-5年">
+                            <label class="form-check-label" for="ten3">
+                                3-5年
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tenure" id="ten4" value="5年以上">
+                            <label class="form-check-label" for="ten4">
+                                5年以上
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_description" class="form-label">面試職位</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="3"
+                            placeholder="請輸入您目標面試職位的工作內容" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">工作經驗</label>
+                        <textarea class="form-control" id="experience" name="experience" rows="3"
+                            placeholder="請輸入您的相關工作經驗" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">專業技能</label>
+                        <textarea class="form-control" id="skills" name="skills" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">開始面試</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76wVtVWJAw3E1rE4W7m2vz8jEk2mnEuSyw+OG+rbtJl7x8CV5C+XtmQG0Uew0D1"
+        crossorigin="anonymous"></script>
+    <script src="/static/form.js"></script>
+</body>
+
+</html>

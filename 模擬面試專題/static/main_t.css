@@ -1,0 +1,15 @@
+/* Apply the same styles to all members for consistent sizing */
+.team .member {
+    flex: 1 1 calc(33.333% - 40px); /* For three boxes per row */
+    margin: 20px;
+    max-width: calc(33.333% - 40px); /* For three boxes per row */
+  }
+  
+  /* Media query to adjust the layout for smaller screens */
+  @media (max-width: 1024px) {
+    .team .member {
+      flex: 1 1 calc(50% - 40px); /* For two boxes per row */
+      max-width: calc(50% - 40px); /* For two boxes per row */
+    }
+  }
+  
